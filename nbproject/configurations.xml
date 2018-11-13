@@ -34,6 +34,8 @@
       <logicalFolder name="f2" displayName="tasks" projectFiles="true">
         <itemPath>src/taskBlinky.h</itemPath>
         <itemPath>src/app.h</itemPath>
+        <itemPath>src/taskJosh.h</itemPath>
+        <itemPath>src/taskHeartbeat.h</itemPath>
       </logicalFolder>
       <itemPath>src/FreeRTOSConfig.h</itemPath>
     </logicalFolder>
@@ -66,6 +68,8 @@
       </logicalFolder>
       <logicalFolder name="f2" displayName="tasks" projectFiles="true">
         <itemPath>src/taskBlinky.c</itemPath>
+        <itemPath>src/taskJosh.c</itemPath>
+        <itemPath>src/taskHeartbeat.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>src/rtos_hooks.c</itemPath>

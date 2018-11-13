@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/production/RTOS_demo.X.production.elf">
+  <executable name="dist/default/production/RTOS_Josh.X.production.elf">
     <memory name="data">
       <units>bytes</units>
       <length>16384</length>
@@ -11,8 +11,8 @@
     <memory name="program">
       <units>bytes</units>
       <length>263424</length>
-      <used>16434</used>
-      <free>246990</free>
+      <used>16626</used>
+      <free>246798</free>
     </memory>
   </executable>
 </project>

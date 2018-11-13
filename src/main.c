@@ -13,6 +13,8 @@
 //RTOS tasks include
 #include "app.h"
 #include "taskBlinky.h"
+#include "taskJosh.h"
+#include "taskHeartbeat.h"
 
 /*****************************************************************************
 
@@ -31,10 +33,7 @@
     Private functions prototype
 
  *****************************************************************************/
-static void taskHeartbeat_Init(unsigned portBASE_TYPE uxPriority);
-static void taskHeartbeat_Execute(void);
-static void prvMainCoRoutine(CoRoutineHandle_t xHandle, unsigned portBASE_TYPE uxIndex);
-
+static void taskHeartbeat_Init(unsigned portBASE_TYPE uxNumberToCreate);
 
 // *****************************************************************************
 // Section: Main Entry Point
@@ -57,6 +56,7 @@ int main( void )
     //    Application Task initialization
     //=========================================================================
     taskBlinky_init();
+    taskJosh_init();
     taskHeartbeat_Init(mainNUM_FLASH_COROUTINES);
 
     //=========================================================================
@@ -103,7 +103,7 @@ static void prvMainCoRoutine(CoRoutineHandle_t xHandle, unsigned portBASE_TYPE u
 // *****************************************************************************
 // Private functions implementation
 // *****************************************************************************
-
+//
 static void taskHeartbeat_Init(unsigned portBASE_TYPE uxNumberToCreate)
 {
     xCoRoutineCreate(prvMainCoRoutine, crf_HEART_BEAT_PRIORITY, crfFLASH_INDEX);
@@ -113,14 +113,14 @@ static void taskHeartbeat_Init(unsigned portBASE_TYPE uxNumberToCreate)
     Process the heartbeat. This is done in the main event loop (as
     opposed to an interrupt) so we can see if the App has locked up.
 */
-static void taskHeartbeat_Execute(void)
-{
-    portENTER_CRITICAL();
-    {
-        IO_RB15_Toggle();        //Toggle signal
-    }
-    portEXIT_CRITICAL();
-}
+//static void taskHeartbeat_Execute(void)
+//{
+//    portENTER_CRITICAL();
+//    {
+//        IO_RB15_Toggle();        //Toggle signal
+//    }
+//    portEXIT_CRITICAL();
+//}
 
 /*******************************************************************************
  End of File

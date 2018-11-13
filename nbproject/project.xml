@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>RTOS_demo</name>
+            <name>RTOS_Josh</name>
             <creation-uuid>6efb8673-8108-4335-9ae7-aef5aac26d28</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
