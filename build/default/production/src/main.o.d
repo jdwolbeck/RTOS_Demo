@@ -15,6 +15,5 @@ FreeRTOS/Source/task.h  \
  src/../mcc_generated_files/pin_manager.h  \
 src/app.h  \
 src/FreeRTOSConfig.h  \
- src/taskBlinky.h  \
-src/taskJosh.h  \
-src/taskHeartbeat.h 
+ src/taskHeartbeat.h  \
+src/taskBlinky.h 

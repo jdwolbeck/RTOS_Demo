@@ -1,37 +1,48 @@
-#include <stdlib.h>
-
 #include "FreeRTOS.h"
-#include "timers.h"
+#include "croutine.h"
 #include "task.h"
-
+#include "app.h"
+#include "../mcc_generated_files/system.h"
 #include "../mcc_generated_files/pin_manager.h"
+#include "taskHeartbeat.h"
 
+/* Only one co-routine is created so the index is not significant. */
+#define crfFLASH_INDEX             (0)
+#define crf_HEART_BEAT_PRIORITY    (0)
 
-#define taskPRIORITY        0
-#define taskSTACK_SIZE      512
+void taskHeartbeat_Init(unsigned portBASE_TYPE uxPriority);
+void taskHeartbeat_Execute(void);
+void prvMainCoRoutine(CoRoutineHandle_t xHandle, unsigned portBASE_TYPE uxIndex);
 
-/*****************************************************************************
-
-    Private functions prototype
-
-*****************************************************************************/
-static portTASK_FUNCTION(vHeartbeatTask, pvParameters);
-
-/*****************************************************************************
-
-    FreeRTOS Task implementation
-
-*****************************************************************************/
-static inline void vCreatNewTasks(unsigned portBASE_TYPE uxPriority)
+void prvMainCoRoutine(CoRoutineHandle_t xHandle, unsigned portBASE_TYPE uxIndex)
 {
-    xTaskCreate(vHeartbeatTask, (char const*)"taskName", (uint16_t)taskSTACK_SIZE/(uint16_t)(2), NULL, uxPriority, (TaskHandle_t *) NULL );
+    /* Co-routines MUST start with a call to crSTART. */
+    crSTART(xHandle);
+
+    for (;;)
+    {
+        crDELAY(xHandle, Time_MillisecondsToTicks(1000));
+
+        taskHeartbeat_Execute();
+    }
+
+    /* Co-routines MUST end with a call to crEND. */
+    crEND();
 }
 
-/*****************************************************************************
+// *****************************************************************************
+// Private functions implementation
+// *****************************************************************************
 
-    Public functions implementation.
+void taskHeartbeat_Init(unsigned portBASE_TYPE uxNumberToCreate)
+{
+    xCoRoutineCreate(prvMainCoRoutine, crf_HEART_BEAT_PRIORITY, crfFLASH_INDEX);
+}
 
-*****************************************************************************/
+/*
+    Process the heartbeat. This is done in the main event loop (as
+    opposed to an interrupt) so we can see if the App has locked up.
+*/
 void taskHeartbeat_Execute(void)
 {
     portENTER_CRITICAL();
@@ -39,19 +50,4 @@ void taskHeartbeat_Execute(void)
         IO_RB15_Toggle();        //Toggle signal
     }
     portEXIT_CRITICAL();
-}
-
-static portTASK_FUNCTION(vHeartbeatTask, pvParameters)
-{
-    /* Just to stop compiler warnings. */
-    (void) pvParameters;
-
-    //===========================================
-    //Task entrance
-    //===========================================
-    while(1)
-    {
-        vTaskDelay(500);
-        IO_RB15_Toggle();
-    }
 }
